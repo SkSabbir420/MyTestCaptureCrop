@@ -1,0 +1,9 @@
+<resources>
+    <string name="app_name">My Test Capture</string>
+    <string name="instruction_photo_capture">
+        Follow the steps to capture the test cassette\n
+        1- Lay test cassette on a flat surface in a bright area.\n
+        2- Ensure the square area in overlapped "C*T" reference.\n
+        3- Be sure the photograph is clear.\n
+    </string>
+</resources>
