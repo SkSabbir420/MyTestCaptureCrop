@@ -1,10 +1,12 @@
 package com.covid19.mytestcapture
 
+import android.content.Intent
 import android.graphics.Bitmap
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.Button
 import android.widget.ImageView
 import android.widget.TextView
 import androidx.fragment.app.Fragment
@@ -42,16 +44,27 @@ class ImageFragment : Fragment() {
         val view = inflater.inflate(R.layout.fragment_image, container, false)
         //ButterKnife.bind(this, view)
         //check if bitmap exist, set to ImageView
+        val imageView = view.findViewById<ImageView>(R.id.res_photo)
+        val imagePhotoSize = view.findViewById<TextView>(R.id.res_photo_size)
         if (bitmap != null) {
-
-//            fragmentBindingImage.resPhoto.setImageBitmap(bitmap)
-//            val info = """
-//                image with:${bitmap!!.width}
-//                image height:${bitmap!!.height}
-//                """.trimIndent()
-//            fragmentBindingImage.resPhotoSize.text = info
+            imageView.setImageBitmap(bitmap)
+            val info = """
+                image with:${bitmap!!.width}
+                image height:${bitmap!!.height}
+                """.trimIndent()
+            imagePhotoSize.text = info
 
         }
+        val goToResultActivity = view.findViewById<Button>(R.id.btn_go_result_activity)
+        goToResultActivity.setOnClickListener {
+            if (bitmap!= null) {
+                val resultActivity = ResultActivity()
+                resultActivity.setBitMap(bitmap)
+                val intent = Intent(context,resultActivity::class.java)
+                startActivity(intent)
+            }
+        }
+
         return view
     }
 }
