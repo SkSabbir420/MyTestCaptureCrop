@@ -244,7 +244,7 @@ class PhotoFragment() : Fragment(), SurfaceHolder.Callback {
                     true
                 )
                 //save file
-                createImageFile(rotatedBitmap)
+               /// createImageFile(rotatedBitmap)
 
                 //calculate aspect ratio
                 val koefX = rotatedBitmap.width.toFloat() / previewLayout!!.width.toFloat()
@@ -294,8 +294,10 @@ class PhotoFragment() : Fragment(), SurfaceHolder.Callback {
         val path = Environment.getExternalStoragePublicDirectory(
             Environment.DIRECTORY_PICTURES
         )
-        val timeStamp = SimpleDateFormat("MMdd_HHmmssSSS").format(Date())
-        val imageFileName = "region_$timeStamp.jpg"
+        //val timeStamp = SimpleDateFormat("MMdd_HHmmssSSS").format(Date())
+
+        //val imageFileName = "region_$timeStamp.jpg"
+        val imageFileName = "region_.jpg"
         val file = File(path, imageFileName)
         try {
             // Make sure the Pictures directory exists.

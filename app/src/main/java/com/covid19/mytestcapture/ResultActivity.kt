@@ -3,6 +3,7 @@ package com.covid19.mytestcapture
 import android.app.Activity
 import android.content.Intent
 import android.graphics.Bitmap
+import android.graphics.BitmapFactory
 import android.net.Uri
 import android.os.Build
 import android.os.Bundle
@@ -24,6 +25,7 @@ import org.tensorflow.lite.support.image.ops.ResizeOp
 import org.tensorflow.lite.support.image.ops.ResizeWithCropOrPadOp
 import org.tensorflow.lite.support.label.TensorLabel
 import org.tensorflow.lite.support.tensorbuffer.TensorBuffer
+import java.io.File
 import java.io.FileInputStream
 import java.io.IOException
 import java.nio.MappedByteBuffer
@@ -91,6 +93,11 @@ class ResultActivity : AppCompatActivity() {
 //                Toast.makeText(this, "Please add your photo", Toast.LENGTH_LONG).show()
 //                return@setOnClickListener
 //            }
+
+        val imgFile = File("/storage/emulated/0/Pictures/region_.jpg")
+        if (imgFile.exists()) {
+            bitmap = BitmapFactory.decodeFile(imgFile.getAbsolutePath())
+        }
             val imageTensorIndex = 0
             val imageShape =
                 tflite!!.getInputTensor(imageTensorIndex).shape() // {1, height, width, 3}
@@ -105,7 +112,13 @@ class ResultActivity : AppCompatActivity() {
             //Toast.makeText(this,Integer.toString(probabilityShape[0]),Toast.LENGTH_SHORT).show();
             val probabilityDataType = tflite!!.getOutputTensor(probabilityTensorIndex).dataType()
             inputImageBuffer = TensorImage(imageDataType)
+            val info = """
+                image with:${bitmap!!.width}
+                image height:${bitmap!!.height}
+                """.trimIndent()
+            Log.d("Sabbir",info)
             inputImageBuffer = loadImage(bitmap) ///vvimp
+
             outputProbabilityBuffer = TensorBuffer.createFixedSize(probabilityShape, probabilityDataType)
             probabilityProcessor = TensorProcessor.Builder().add(postprocessNormalizeOp).build()
             tflite!!.run(inputImageBuffer!!.buffer, outputProbabilityBuffer!!.buffer.rewind())
